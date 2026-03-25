@@ -10,23 +10,11 @@
           sm="6"
           md="4"
           lg="3"
-      >
-        <v-card>
+      > <!--  Î pour le responsive -->
 
-          <v-img
-              :src="game.background_image"
-              height="200"
-              cover
-          />
+        <!-- Composant de carte pour chaque jeu -->
+        <game-card :game="game" />
 
-          <v-card-title>
-            {{ game.name }}
-          </v-card-title>
-
-          <v-card-subtitle>
-            Rating {{ game.rating }}
-          </v-card-subtitle>
-        </v-card>
       </v-col>
     </v-row>
   </v-container>
@@ -34,6 +22,9 @@
 
 <script setup>
 import {onMounted, ref} from "vue";
+
+// Import du sous-composant
+import GameCard from "@/components/GameCard.vue";
 
 const games = ref([])
 
