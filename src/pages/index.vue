@@ -29,24 +29,24 @@ import GameCard from "@/components/GameCard.vue";
 const games = ref([])
 
 try {
-// onMounted s'exécute quand le composant est monté
-onMounted(async () => {
-  const res = await fetch(
-      `https://api.rawg.io/api/games?key=65431f6a205b4ae0899f6dade712f408`
-  )
+  // onMounted s'exécute quand le composant est monté
+  onMounted(async () => {
+    const response = await fetch(
+        `https://api.rawg.io/api/games?key=65431f6a205b4ae0899f6dade712f408`
+    )
 
-  // Conversion de la réponse en JSON si elle ne l'est pas déjà
-  const data = await res.json()
+    // Conversion de la réponse en JSON si elle ne l'est pas déjà
+    const data = await response.json()
 
-  // On stocke uniquement le tableau "results" contenu dans la réponse json
-  // Si le tableau "results" ne contient rien, on met un tableau vide
-  if (data.results) {
-    games.value = data.results;
-  } else {
-    games.value = [];
-  }
-  console.log(games.value)
-})
+    // On stocke uniquement le tableau "results" contenu dans la réponse json
+    // Si le tableau "results" ne contient rien, on met un tableau vide
+    if (data.results) {
+      games.value = data.results;
+    } else {
+      games.value = [];
+    }
+    console.log(games.value)
+  })
 } catch (error) {
   console.error('Erreur lors de la récupération des jeux:', error)
 }
