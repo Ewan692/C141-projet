@@ -35,7 +35,7 @@
       <v-card-subtitle>
         Rating {{ game.rating }}
       </v-card-subtitle>
-      <v-card-subtitle>
+      <v-card-subtitle v-if="game.alternative_names">
         Alternative names {{ game.alternative_names }}
       </v-card-subtitle>
 
