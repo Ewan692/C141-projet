@@ -40,11 +40,12 @@ export const useGameStore = defineStore('game', {
          * @param {Object} state - Le state du store
          * @returns {function(string): Object|undefined}
          */
-        /*getGameById: (state) => {
+        getGameById: (state) => {
             return (gameId) => {
-                return state.games.find(pokemon => game.id === gameId)
+                return state.games.find(game => game.id == gameId)
+                // ATTENTION => On compare tring avec number donc seulement == (sinon ça marche pas)
             }
-        },*/
+        },
     },
 
     /**
@@ -65,22 +66,21 @@ export const useGameStore = defineStore('game', {
                 throw new Error(`Erreur HTTP : ${response.status}`)
             }
 
+
             // Conversion de la réponse en JSON si elle ne l'est pas déjà
             const data = await response.json()
 
             if (data.results) {
-                this.games.value = data.results;
+                this.games = data.results;
             } else {
-                this.games.value = [];
+                this.games = [];
             }
-            console.log(this.games.value)
-            console.log('Pokémon chargés :', this.games.length)
         },
 
         /**
-         * Charge un seul jeu depuis l'API.
+         * Charge un seul jeu depuis l'API en ligne.
          */
-        async fetchGameById() {
+        async fetchGameById(id) {
             const response = await fetch(`https://api.rawg.io/api/games/${id}?key=65431f6a205b4ae0899f6dade712f408`)
 
             if (!response.ok) {
@@ -88,7 +88,7 @@ export const useGameStore = defineStore('game', {
             }
 
             this.selectedGame = await response.json()
-            console.log('Jeu chargé :', this.selectedGame)
+            console.log('Jeu chargé :', id)
         },
 
         /**
@@ -106,10 +106,11 @@ export const useGameStore = defineStore('game', {
                 // Plus rapide que de les faire l'une après l'autre
                 await Promise.all([
                     this.fetchGames(),
-                    this.fetchGameById(),
                 ])
 
                 console.log('Store Games initialisé !')
+                console.log(this.games)
+                console.log('Jeux chargés :', this.games.length)
             } catch (error) {
                 this.error = 'Erreur lors du chargement des données'
                 console.error(error)

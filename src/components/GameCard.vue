@@ -1,5 +1,5 @@
 <template>
-  <v-card  :to="`/game/${game.id}`" hover>
+  <v-card :to="`/game/${game.id}`" hover>
     <v-img
         :src="game.background_image"
         height="200"

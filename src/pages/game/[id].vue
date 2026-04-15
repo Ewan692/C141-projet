@@ -49,21 +49,17 @@
 </template>
 
 <script setup>
-import {useRoute} from "vue-router";
-import {onMounted, ref} from "vue";
+import { useRoute } from "vue-router";
+import {computed, onMounted} from "vue";
+import { useGameStore } from "@/stores/gameStore.js";
 
+// Récupérer l'ID depuis les paramètres de la route
 const route = useRoute()
-const game = ref([])
+const gameStore = useGameStore()
 
-try {
-  onMounted(async () => {
-    const response = await fetch(`https://api.rawg.io/api/games/${route.params.id}?key=65431f6a205b4ae0899f6dade712f408`)
-
-    // Conversion de la réponse en JSON si elle ne l'est pas déjà
-    game.value = await response.json()
-    console.log(game.value)
-  })
-} catch (error) {
-  console.error('Erreur lors de la récupération d\'un jeu:', error)
-}
+// Utiliser le getter du store pour trouver le jeu
+// computed se met à jour automatiquement si l'ID change
+const game = computed(() => {
+  return gameStore.getGameById(route.params.id)
+})
 </script>

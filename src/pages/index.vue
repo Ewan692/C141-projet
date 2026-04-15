@@ -21,33 +21,13 @@
 </template>
 
 <script setup>
-import {onMounted, ref} from "vue";
-
-// Import du sous-composant
 import GameCard from "@/components/GameCard.vue";
+import {useGameStore} from "@/stores/gameStore.js";
+import {storeToRefs} from "pinia";
 
-const games = ref([])
-
-try {
-  // onMounted s'exécute quand le composant est monté
-  onMounted(async () => {
-    const response = await fetch(
-        `https://api.rawg.io/api/games?key=65431f6a205b4ae0899f6dade712f408`
-    )
-
-    // Conversion de la réponse en JSON si elle ne l'est pas déjà
-    const data = await response.json()
-
-    // On stocke uniquement le tableau "results" contenu dans la réponse json
-    // Si le tableau "results" ne contient rien, on met un tableau vide
-    if (data.results) {
-      games.value = data.results;
-    } else {
-      games.value = [];
-    }
-    console.log(games.value)
-  })
-} catch (error) {
-  console.error('Erreur lors de la récupération des jeux:', error)
-}
+// Destructurer le state en gardant la réactivité
+// storeToRefs convertit chaque propriété du state en ref
+const gameStore = useGameStore()
+const { games } = storeToRefs(gameStore);
+//const games = storeToRefs(gameStore).games;
 </script>
