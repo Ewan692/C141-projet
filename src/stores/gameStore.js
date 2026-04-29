@@ -1,4 +1,5 @@
 import { defineStore } from 'pinia'
+import api from "@/plugins/axios.js";
 
 /**
  * Store Pinia pour gérer les données des jeux.
@@ -58,29 +59,33 @@ export const useGameStore = defineStore('game', {
          * Charge tous les Pokémon depuis l'API.
          * Note : ne gère pas isLoading — c'est init() qui s'en charge.
          */
-        async fetchGames() {
-            const response = await fetch('https://api.rawg.io/api/games?key=65431f6a205b4ae0899f6dade712f408')
-
-            // Vérifier que la réponse est OK (status 200-299)
-            if (!response.ok) {
-                throw new Error(`Erreur HTTP : ${response.status}`)
+        async fetchGames ({ withLoader = true } = {}){
+            if (withLoader) {
+                this.isLoading = true
             }
 
+            try {
+                // Ancienne néthode manuelle avec un fetch
+                //const response = await fetch('https://api.rawg.io/api/games?key=VITE_API_KEY') // ancienne méthode fetch
+                const response = await api.get('/games')
 
-            // Conversion de la réponse en JSON si elle ne l'est pas déjà
-            const data = await response.json()
-
-            if (data.results) {
-                this.games = data.results;
-            } else {
-                this.games = [];
+                // On affecte response.data.results à this.games s’il existe ; sinon, on lui donne un tableau vide
+                if (response.data.results) {
+                    this.games = response.data.results;
+                } else {
+                    this.games = [];
+                }
+            } catch (error) {
+                console.error('Erreur API:', error.message)
+            } finally {
+                if (withLoader) this.isLoading = false
             }
         },
 
         /**
          * Charge un seul jeu depuis l'API en ligne.
          */
-        async fetchGameById(id) {
+        /*async fetchGameById(id) {
             const response = await fetch(`https://api.rawg.io/api/games/${id}?key=65431f6a205b4ae0899f6dade712f408`)
 
             if (!response.ok) {
@@ -89,7 +94,7 @@ export const useGameStore = defineStore('game', {
 
             this.selectedGame = await response.json()
             console.log('Jeu chargé :', id)
-        },
+        },*/
 
         /**
          * Initialise le store.
@@ -102,8 +107,7 @@ export const useGameStore = defineStore('game', {
             this.error = null
 
             try {
-                // Promise.all exécute les deux requêtes en parallèle
-                // Plus rapide que de les faire l'une après l'autre
+                // Promise.all exécute les deux requêtes en parallèle qui est plus rapide que de les faire l'une après l'autre
                 await Promise.all([
                     this.fetchGames(),
                 ])

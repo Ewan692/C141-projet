@@ -16,5 +16,17 @@ const api = axios.create({
     },
 })
 
+/**
+ * Intercepteur qui ajoute automatiquement la clé API à chaque requête
+ */
+api.interceptors.request.use((config) => {
+    config.params = {
+        ...config.params,
+        key: import.meta.env.VITE_API_KEY,
+    }
+
+    return config
+})
+
 // On exporte l'instance pour l'utiliser partout : import api from '@/plugins/axios'
 export default api
