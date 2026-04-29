@@ -83,20 +83,6 @@ export const useGameStore = defineStore('game', {
         },
 
         /**
-         * Charge un seul jeu depuis l'API en ligne.
-         */
-        /*async fetchGameById(id) {
-            const response = await fetch(`https://api.rawg.io/api/games/${id}?key=65431f6a205b4ae0899f6dade712f408`)
-
-            if (!response.ok) {
-                throw new Error(`Erreur HTTP : ${response.status}`)
-            }
-
-            this.selectedGame = await response.json()
-            console.log('Jeu chargé :', id)
-        },*/
-
-        /**
          * Initialise le store.
          * À appeler une seule fois au démarrage de l'application (dans App.vue).
          */
