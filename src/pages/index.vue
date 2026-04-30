@@ -19,10 +19,10 @@
       <v-col cols="12" sm="6" md="4">
         <v-select
             v-model="minRating"
-            :items="[0, 1, 2, 3, 4, 5]"
+            :items="[1, 2, 3, 4, 5]"
             item-title="name"
             item-value="id"
-            label="Filtrer par genre"
+            label="Filtrer par note"
             prepend-inner-icon="mdi-filter"
             clearable
             density="compact"
@@ -102,9 +102,9 @@ const { games } = storeToRefs(gameStore);
 
 const searchQuery = ref('')
 const sortOrder = ref('asc')
-const sortBy = ref('name')
 const minRating = ref(null)
 
+/*        OLD
 // Filtrer par recherche de nom
 const filteredGames = computed(() => {
   if (!searchQuery.value) {
@@ -124,31 +124,35 @@ const filteredByRating = computed(() => {
   return gameStore.games.filter(game =>
       game.rating >= minRating.value
   )
-})
+})*/
 
 // Trier par ordre alphabétique
+// On clone le tableau pour éviter de modifier le state Pinia
 const sortedGames = computed(() => {
-  return [...filteredGames.value].sort((a, b) => {
-    let comparison = 0
+  // Filtrer par recherche de nom
+  const filteredBySearch = searchQuery.value
+      ? games.value.filter(game => game.name.toLowerCase().includes(searchQuery.value.toLowerCase())) // affiche un avertissement mais ça marche quand même
+      : games.value;
 
-    // Tri par nom
-    if (sortType.value === 'name') {
-      comparison = a.name.localeCompare(b.name, 'fr')
+  // Filtrer par rating
+  const filteredByRating = minRating.value !== null
+      ? filteredBySearch.filter(game => game.rating >= minRating.value && game.rating <= minRating.value+1)
+      : filteredBySearch;
+
+  // Tri par nom de A-Z et si égalité, par rating du plus élevé au plus bas
+  return [...filteredByRating].sort((a, b) => {
+    // Trier par ordre alphabétique
+    const nameComparison = a.name.localeCompare(b.name, 'fr');
+    if (nameComparison !== 0) {
+      return sortOrder.value === 'asc' ? nameComparison : -nameComparison;
     }
+    // Si les noms sont égaux, tri par rating
+    return sortOrder.value === 'asc' ? b.rating - a.rating : a.rating - b.rating;
+  });
+});
 
-    // Tri par rating
-    if (sortType.value === 'rating') {
-      comparison = a.rating - b.rating
-    }
-
-    return sortOrder.value === 'asc'
-        ? comparison
-        : -comparison
-  })
-})
-
-// Inverser l'ordre
+// Inverser l'ordre du tri
 function toggleSort() {
-  sortOrder.value = sortOrder.value === 'asc' ? 'desc' : 'asc'
+  sortOrder.value = sortOrder.value === 'asc' ? 'desc' : 'asc';
 }
 </script>
