@@ -71,6 +71,7 @@
       Impossible de charger les jeux. Vérifiez l'API !
     </v-alert>
 
+    <!-- RESULT -->
     <v-row v-else>
       <v-col
           v-for="game in sortedGames"
