@@ -46,7 +46,7 @@ export const useGameStore = defineStore('game', {
         getGameById: (state) => {
             return (gameId) => {
                 return state.games.find(game => game.id == gameId)
-                // ATTENTION => On compare tring avec number donc seulement == (sinon ça marche pas)
+                // ATTENTION => On compare string avec number donc seulement == (sinon ça marche pas)
             }
         },
 
@@ -185,10 +185,12 @@ export const useGameStore = defineStore('game', {
             this.error = null
 
             try {
-                // Promise.all exécute les deux requêtes en parallèle qui est plus rapide que de les faire l'une après l'autre
+                // Promise.all exécute toutes les requêtes en parallèle.
+                // Ce qui est évidemment plus rapide que de les faire l'une après l'autre.
                 await Promise.all([
                     this.fetchGames(),
                 ])
+
                 this.loadFavorites()
 
                 console.log('Store Games initialisé !')

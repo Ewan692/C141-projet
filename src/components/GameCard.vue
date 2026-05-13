@@ -17,17 +17,16 @@
     <v-card-actions>
       <v-spacer />
       <v-btn
-          :icon="game.isFavorite(game) ? 'mdi-heart' : 'mdi-heart-outline'"
-          :color="game.isFavorite(game) ? 'red' : ''"
+          :icon="gameStore.isFavorite(game) ? 'mdi-heart' : 'mdi-heart-outline'"
+          :color="gameStore.isFavorite(game) ? 'red' : ''"
           variant="text"
           @click.stop.prevent="toggleFavorite()"
       />
     </v-card-actions>
     <!--
     Snackbar de confirmation
-      * v-model contrôle l'affichage
-      * timeout="2000" masque automatiquement après 2 secondes
-      * Le message change selon l'action (ajout ou retrait)
+      => timeout="2000" masque automatiquement après 2 secondes
+      => Le message change selon l'action (ajout ou retrait)
     -->
     <v-snackbar
         v-model="showSnackbar"
