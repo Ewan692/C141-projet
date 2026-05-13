@@ -79,7 +79,7 @@ Cette palette personnalisée s'applique automatiquement à tous les composants V
 
 ### Favicon du projet
 
-Le fichier [`public/favicon.png`](public/favicon.png) contient les silhouettes de Rick & Morty (icône officielle de l'API).
+Le fichier [`public/favicon.png`](public/OLD-favicon.png) contient les silhouettes de Rick & Morty (icône officielle de l'API).
 
 Dans [`index.html`](index.html), remplacer la balise `<link rel="icon">` existante par :
 
@@ -333,7 +333,7 @@ Ajouter dans le [`<v-container>`](https://vuetifyjs.com/en/components/grids/#v-c
 </v-app-bar-title>
 ```
 
-> On réutilise le fichier [`public/favicon.png`](public/favicon.png) (les silhouettes Rick & Morty) comme logo dans le header. On utilise un `<img>` natif plutôt que `<v-img>` pour éviter les problèmes de layout dans la barre de navigation. Les fichiers dans `public/` sont accessibles directement via `/` dans les URLs.
+> On réutilise le fichier [`public/favicon.png`](public/OLD-favicon.png) (les silhouettes Rick & Morty) comme logo dans le header. On utilise un `<img>` natif plutôt que `<v-img>` pour éviter les problèmes de layout dans la barre de navigation. Les fichiers dans `public/` sont accessibles directement via `/` dans les URLs.
 
 **4. Le script** — remplacer le contenu de `<script setup>` :
 

@@ -22,17 +22,19 @@
         max-width="800"
         class="mx-auto"
     >
+      <!-- py-6 est le padding vertical (avant et après) -->
+      <v-card-title class="text-h4 text-center py-6">
+        {{ game.name }}
+      </v-card-title>
+
       <v-img
           :src="game.background_image"
           height="300"
           cover
       />
 
-      <v-card-title class="text-h4">
-        {{ game.name }}
-      </v-card-title>
-
-      <v-card-subtitle class="d-flex align-center justify-space-between">
+      <!-- mt-5 est une marge au-dessus du rating -->
+      <v-card-subtitle class="d-flex align-center justify-space-between mt-5">
         <span>
           Rating {{ game.rating }}
         </span>
@@ -56,15 +58,33 @@
         </v-snackbar>
       </v-card-subtitle>
 
-      <v-card-subtitle v-if="game.alternative_names">
-        Alternative names {{ game.alternative_names }}
-      </v-card-subtitle>
-
-      <v-card-text>
-        <p v-if="game.description_raw" class="text-body-1 mb-4">
-          {{ game.description_raw }}
+      <!--<v-card-text>
+        <p v-if="game.platforms" class="text-body-1 mb-4">
+          <v-card-subtitle class="text-h6">
+            Description
+          </v-card-subtitle>
+          {{ game.platforms }}
         </p>
+      </v-card-text>-->
+
+      <!-- Vérifie que le jeu possède des plateformes -->
+      <v-card-text v-if="game.platforms?.length">
+        <div class="text-subtitle-1 mb-2">Plateformes :</div>
+
+        <v-chip-group>
+          <!-- Chaque "chip" est une sorte de badge avec le nom de la plateforme à l'affichage -->
+          <v-chip
+              v-for="p in game.platforms"
+              :key="p.platform.id"
+              size="small"
+              class="ma-1"
+              variant="outlined"
+          >
+            {{ p.platform.name }}
+          </v-chip>
+        </v-chip-group>
       </v-card-text>
+
     </v-card>
   </v-container>
 </template>
@@ -88,7 +108,7 @@ const game = computed(() => {
 })
 
 /**
- * Ajouter ou retirer des favoris
+ * Ajouter ou retirer un favori
  */
 function toggleFavorite() {
   const wasFavorite = gameStore.isFavorite(game.value)

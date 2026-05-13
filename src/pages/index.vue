@@ -3,7 +3,7 @@
     <h1 class="text-h4 my-4">GAMES</h1>
 
     <!-- Recherche + filtre + tri -->
-    <v-row class="mb-4">
+    <v-row class="d-flex mb-4">
       <!-- Recherche -->
       <v-col cols="12" sm="6" md="4">
         <v-text-field
@@ -30,7 +30,7 @@
       </v-col>
 
       <!-- Tri alphabétique -->
-      <v-col cols="12" md="4" class="d-flex align-center">
+      <v-col cols="12" md="4" class="align-center">
         <v-btn
             variant="outlined"
             :prepend-icon="sortOrder === 'asc'
@@ -105,28 +105,6 @@ const searchQuery = ref('')
 const sortOrder = ref('asc')
 const minRating = ref(null)
 
-/*        OLD
-// Filtrer par recherche de nom
-const filteredGames = computed(() => {
-  if (!searchQuery.value) {
-    return gameStore.games
-  }
-  const query = searchQuery.value
-
-  return gameStore.games.filter(function (game) {
-    return game.name.toLowerCase().includes(query.toLowerCase()); // affiche un avertissement mais ça marche quand même
-  });
-})
-
-// Filtrer par rating minimum
-const filteredByRating = computed(() => {
-  if (minRating.value === null) return gameStore.games
-
-  return gameStore.games.filter(game =>
-      game.rating >= minRating.value
-  )
-})*/
-
 // Trier par ordre alphabétique
 // On clone le tableau pour éviter de modifier le state Pinia
 const sortedGames = computed(() => {
@@ -140,7 +118,7 @@ const sortedGames = computed(() => {
       ? filteredBySearch.filter(game => game.rating >= minRating.value && game.rating <= minRating.value+1)
       : filteredBySearch;
 
-  // Tri par nom de A-Z et si égalité, par rating du plus élevé au plus bas
+  // Tri par nom de A-Z et si égalité, rating du plus élevé au plus bas
   return [...filteredByRating].sort((a, b) => {
     // Trier par ordre alphabétique
     const nameComparison = a.name.localeCompare(b.name, 'fr');

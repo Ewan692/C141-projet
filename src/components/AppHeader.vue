@@ -4,7 +4,7 @@
     <!-- Icônes -->
     <v-avatar
         class="mr-4 pa-0 cursor-pointer"
-        image="@/images/nintendo-game-boy.svg" alt="Icône de Game Boy"
+        image="@/images/nintendo-game-boy.svg" alt="Icône de GambBoy"
         size="64"
         @click="$router.push('/')"
     />

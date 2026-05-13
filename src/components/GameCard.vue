@@ -55,7 +55,7 @@ const { game } = defineProps({
 })
 
 /**
- * Ajouter ou retirer des favoris
+ * Ajouter ou retirer un favori
  */
 function toggleFavorite() {
   const wasFavorite = gameStore.isFavorite(game)
