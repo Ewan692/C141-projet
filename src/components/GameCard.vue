@@ -23,14 +23,13 @@
           @click.stop.prevent="toggleFavorite()"
       />
     </v-card-actions>
-    <!--
-    Snackbar de confirmation
-      => timeout="2000" masque automatiquement après 2 secondes
+    <!-- Snackbar de confirmation
+      => timeout="2000" masque automatiquement après 4 secondes
       => Le message change selon l'action (ajout ou retrait)
     -->
     <v-snackbar
         v-model="showSnackbar"
-        :timeout="2000"
+        :timeout="4000"
         color="primary"
     >
       {{ snackbarMessage }}
@@ -55,6 +54,9 @@ const { game } = defineProps({
   },
 })
 
+/**
+ * Ajouter ou retirer des favoris
+ */
 function toggleFavorite() {
   const wasFavorite = gameStore.isFavorite(game)
   gameStore.toggleFavorite(game)
