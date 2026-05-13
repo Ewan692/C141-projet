@@ -29,7 +29,7 @@
 
       <v-img
           :src="game.background_image"
-          height="300"
+          height="400"
           cover
       />
 
@@ -58,17 +58,12 @@
         </v-snackbar>
       </v-card-subtitle>
 
-      <!--<v-card-text>
-        <p v-if="game.platforms" class="text-body-1 mb-4">
-          <v-card-subtitle class="text-h6">
-            Description
-          </v-card-subtitle>
-          {{ game.platforms }}
-        </p>
-      </v-card-text>-->
+      <!-- Petite ligne de séparation discrète -->
+      <v-divider class="my-3"/>
 
-      <!-- Vérifie que le jeu possède des plateformes -->
+      <!-- PLATEFOMRES -->
       <v-card-text v-if="game.platforms?.length">
+        <!-- Vérifie que le jeu possède des plateformes -->
         <div class="text-subtitle-1 mb-2">Plateformes :</div>
 
         <v-chip-group>
@@ -83,6 +78,62 @@
             {{ p.platform.name }}
           </v-chip>
         </v-chip-group>
+      </v-card-text>
+
+      <!-- GENRES -->
+      <v-card-text v-if="game.genres?.length">
+        <!-- Affiche uniquement si il y a au moins 1 genre -->
+        <div class="text-subtitle-1 mb-2">Genres :</div>
+
+        <v-chip-group>
+          <v-chip
+              v-for="genre in game.genres"
+              :key="genre.id"
+              size="small"
+              class="ma-1"
+              variant="outlined"
+          >
+            {{ genre.name }}
+          </v-chip>
+        </v-chip-group>
+      </v-card-text>
+
+      <!-- MAGASINS -->
+      <v-card-text v-if="game.stores?.length">
+        <div class="text-subtitle-1 mb-2">Stores :</div>
+
+        <v-chip-group>
+          <v-chip
+              v-for="s in game.stores"
+              :key="s.id"
+              size="small"
+              class="ma-1"
+              variant="outlined"
+          >
+            {{ s.store.name }}
+          </v-chip>
+        </v-chip-group>
+      </v-card-text>
+
+      <!-- AUTRES IMAGES -->
+      <v-card-text v-if="game.short_screenshots?.length">
+        <div class="text-subtitle-1 mb-2">Aperçus :</div>
+        <v-row>
+          <!-- On ignore la première image car c'est la cover du jeu -->
+          <v-col
+              v-for="shot in game.short_screenshots.slice(1, 4)"
+              :key="shot.id"
+              cols="12"
+              sm="4"
+          >
+            <v-img
+                :src="shot.image"
+                height="200"
+                cover
+                class="rounded"
+            />
+          </v-col>
+        </v-row>
       </v-card-text>
 
     </v-card>

@@ -120,7 +120,7 @@ export const useGameStore = defineStore('game', {
                 if (saved) {
                     // Transformer le string du localStorage en tableau
                     this.favorites = JSON.parse(saved)
-                    console.log('Favoris chargés :', this.favorites.length, 'éléments')
+                    console.log('Favoris chargés =>', this.favorites.length, 'éléments')
                 } else {
                     this.favorites = []
                 }
