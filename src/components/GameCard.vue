@@ -10,19 +10,22 @@
       {{ game.name }}
     </v-card-title>
 
-    <v-card-subtitle>
-      Rating {{ game.rating }}
-    </v-card-subtitle>
+    <!-- Utilisation du flex pour mettre le rating au même niveau que le coeur -->
+    <v-card-subtitle class="d-flex align-center justify-space-between">
+      <span>
+        Rating {{ game.rating }}
+      </span>
 
-    <v-card-actions>
-      <v-spacer />
-      <v-btn
-          :icon="gameStore.isFavorite(game) ? 'mdi-heart' : 'mdi-heart-outline'"
-          :color="gameStore.isFavorite(game) ? 'red' : ''"
-          variant="text"
-          @click.stop.prevent="toggleFavorite()"
-      />
-    </v-card-actions>
+      <v-card-actions>
+        <v-spacer />
+        <v-btn
+            :icon="gameStore.isFavorite(game) ? 'mdi-heart' : 'mdi-heart-outline'"
+            :color="gameStore.isFavorite(game) ? 'red' : ''"
+            variant="text"
+            @click.stop.prevent="toggleFavorite()"
+        />
+      </v-card-actions>
+    </v-card-subtitle>
     <!-- Snackbar de confirmation
       => timeout="2000" masque automatiquement après 4 secondes
       => Le message change selon l'action (ajout ou retrait)
