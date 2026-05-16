@@ -2,10 +2,18 @@
   <v-container>
     <h1 class="text-h4 my-4">GAMES</h1>
 
+    <!--| Taille | Écran        |
+        | ------ | ------------ |
+        | xs     | téléphone    |
+        | sm     | tablette     |
+        | md     | petit laptop |
+        | lg     | desktop      |
+        | xl     | grand écran  |-->
+
     <!-- Recherche + filtre + tri -->
     <v-row class="d-flex mb-4">
       <!-- Recherche -->
-      <v-col cols="12" sm="6" md="4">
+      <v-col cols="12" sm="6" md="3">
         <v-text-field
             v-model="searchQuery"
             label="Rechercher un jeu"
@@ -16,7 +24,7 @@
       </v-col>
 
       <!-- Filtre par rating minimum -->
-      <v-col cols="12" sm="6" md="4">
+      <v-col cols="12" sm="6" md="3">
         <v-select
             v-model="minRating"
             :items="[1, 2, 3, 4, 5]"
@@ -30,7 +38,7 @@
       </v-col>
 
       <!-- Tri alphabétique -->
-      <v-col cols="12" md="4" class="align-center">
+      <v-col cols="12" md="3" class="align-center">
         <v-btn
             variant="outlined"
             :prepend-icon="sortOrder === 'asc'
@@ -39,6 +47,20 @@
             @click="toggleSort"
         >
           Tri alphabétique {{ sortOrder === 'asc' ? '↑' : '↓' }}
+        </v-btn>
+      </v-col>
+
+      <!-- Reset filtres -->
+      <v-col cols="12" md="3">
+        <!-- :disabled permet de griser (désactiver le filtre quand rien n'est appliqué) -->
+        <v-btn
+            color="error"
+            variant="outlined"
+            prepend-icon="mdi-filter-remove"
+            :disabled="!searchQuery && minRating === null && sortOrder === 'asc'"
+            @click="resetFilters"
+        >
+          Effacer filtres
         </v-btn>
       </v-col>
     </v-row>
@@ -105,8 +127,10 @@ const searchQuery = ref('')
 const sortOrder = ref('asc')
 const minRating = ref(null)
 
-// Trier par ordre alphabétique
-// On clone le tableau pour éviter de modifier le state Pinia
+/**
+ * Trier par ordre alphabétique
+ * On clone le tableau pour éviter de modifier le state Pinia
+ */
 const sortedGames = computed(() => {
   // Filtrer par recherche de nom
   const filteredBySearch = searchQuery.value
@@ -130,8 +154,19 @@ const sortedGames = computed(() => {
   });
 });
 
-// Inverser l'ordre du tri
+/**
+ * Inverser l'ordre du tri
+ */
 function toggleSort() {
   sortOrder.value = sortOrder.value === 'asc' ? 'desc' : 'asc';
+}
+
+/**
+ * Réinitialise tous les filtres et tris
+ */
+function resetFilters() {
+  searchQuery.value = ''
+  minRating.value = null
+  sortOrder.value = 'asc'
 }
 </script>
