@@ -22,6 +22,7 @@
             :icon="gameStore.isFavorite(game) ? 'mdi-heart' : 'mdi-heart-outline'"
             :color="gameStore.isFavorite(game) ? 'red' : ''"
             variant="text"
+            :class="{ 'favorite-active': gameStore.isFavorite(game) }"
             @click.stop.prevent="toggleFavorite()"
         />
       </v-card-actions>
@@ -67,3 +68,9 @@ function toggleFavorite() {
   showSnackbar.value = true
 }
 </script>
+
+<style scoped>
+.favorite-active {
+  animation: heartbeat 1.6s ease-in-out;
+}
+</style>
